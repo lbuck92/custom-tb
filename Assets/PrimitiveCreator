@@ -1,0 +1,38 @@
+using UnityEngine;
+
+public class PrimitiveCreator : MonoBehaviour
+{
+	private SteamVR_TrackedController _controller;
+	private PrimitiveType cube = PrimitiveType.Cube;
+
+	private void OnEnable()
+	{
+		_controller = GetComponent<SteamVR_TrackedController>();
+		_controller.TriggerClicked += HandleTriggerClicked;
+	}
+
+	private void OnDisable()
+	{
+		_controller.TriggerClicked -= HandleTriggerClicked;
+	}
+
+	#region Primitive Spawning
+	private void HandleTriggerClicked(object sender, ClickedEventArgs e)
+	{
+		SpawnCurrentPrimitiveAtController();
+	}
+
+	private void SpawnCurrentPrimitiveAtController()
+	{
+		var spawnedPrimitive = GameObject.CreatePrimitive(_currentPrimitiveType);
+		spawnedPrimitive.transform.position = transform.position;
+		spawnedPrimitive.transform.rotation = transform.rotation;
+		
+		spawnedPrimitive.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+		if (_currentPrimitiveType == PrimitiveType.Plane)
+			spawnedPrimitive.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+	}
+
+}
+
+
