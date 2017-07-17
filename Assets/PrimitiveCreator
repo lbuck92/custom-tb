@@ -24,14 +24,13 @@ public class PrimitiveCreator : MonoBehaviour
 
 	private void SpawnCurrentPrimitiveAtController()
 	{
-		var spawnedPrimitive = GameObject.CreatePrimitive(_currentPrimitiveType);
+		var spawnedPrimitive = GameObject.CreatePrimitive(cube);
 		spawnedPrimitive.transform.position = transform.position;
 		spawnedPrimitive.transform.rotation = transform.rotation;
-		
+
 		spawnedPrimitive.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-		if (_currentPrimitiveType == PrimitiveType.Plane)
-			spawnedPrimitive.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
 	}
+	#endregion
 
 }
 
