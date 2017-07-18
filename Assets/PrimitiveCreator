@@ -5,6 +5,7 @@ public class PrimitiveCreator : MonoBehaviour
 {
 	private SteamVR_TrackedController _controller;
 	private PrimitiveType cube = PrimitiveType.Cube;
+	//to change from cube to sphere --> replace PrimitiveType.Cube with PrimitiveType.sphere // replace cube to sphere throughout the whole script
 
 	private void OnEnable()
 	{
