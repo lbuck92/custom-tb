@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.IO;
 
 public class PrimitiveCreator : MonoBehaviour
 {
@@ -27,8 +28,11 @@ public class PrimitiveCreator : MonoBehaviour
 		var spawnedPrimitive = GameObject.CreatePrimitive(cube);
 		spawnedPrimitive.transform.position = transform.position;
 		spawnedPrimitive.transform.rotation = transform.rotation;
-
 		spawnedPrimitive.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+		
+		using (StreamWriter cp = new StreamWriter (@"Assets/CubePositions.txt", true)) {
+			cp.WriteLine ("CubePositions: {0}", spawnedPrimitive.transform.position);
+		}
 	}
 	#endregion
 
