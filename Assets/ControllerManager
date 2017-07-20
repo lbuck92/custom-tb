@@ -38,6 +38,14 @@ public class ControllerManager : MonoBehaviour
 		spawnedPrimitive.transform.position = transform.position;
 		spawnedPrimitive.transform.rotation = transform.rotation;
 		spawnedPrimitive.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+		
+		Renderer r = spawnedPrimitive.GetComponent<Renderer> ();
+		if (transform.position.x > 1.0) { //random number -- check axis and check values to see the threshold
+			r.material.color = Color.red;
+		} 
+		else {
+			r.material.color = Color.blue;
+		}
 
 		using (StreamWriter cp = new StreamWriter (@"Assets/SpherePositions.txt", true)) {
 			cp.WriteLine ("SpherePositions: {0}", spawnedPrimitive.transform.position);
