@@ -1,0 +1,47 @@
+using UnityEngine;
+using System.Collections;
+using System.IO;
+
+public class ControllerManager : MonoBehaviour 
+{
+
+	private SteamVR_TrackedController _controller;
+	private PrimitiveType sphere = PrimitiveType.Sphere;
+
+	public bool triggerButtonPressed = false;
+	private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
+
+	private SteamVR_Controller.Device controller {
+		get {
+			return SteamVR_Controller.Input ((int)trackedObj.index);
+		}
+	}
+
+	private SteamVR_TrackedObject trackedObj;
+
+	void Start()
+	{
+		trackedObj = GetComponent<SteamVR_TrackedObject>();
+	}
+
+	void Update()
+	{
+		triggerButtonPressed = controller.GetPress (triggerButton);
+		if (triggerButtonPressed) {
+			SpawnCurrentPrimitiveAtController ();
+		}
+	}
+
+	private void SpawnCurrentPrimitiveAtController()
+	{
+		var spawnedPrimitive = GameObject.CreatePrimitive(sphere);
+		spawnedPrimitive.transform.position = transform.position;
+		spawnedPrimitive.transform.rotation = transform.rotation;
+		spawnedPrimitive.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+
+		using (StreamWriter cp = new StreamWriter (@"Assets/SpherePositions.txt", true)) {
+			cp.WriteLine ("SpherePositions: {0}", spawnedPrimitive.transform.position);
+		}
+	}
+}
+//might work because on update so it calls over and over and if the button is pressed then it spawns a sphere, so if controller is held down then it keeps making spheres
