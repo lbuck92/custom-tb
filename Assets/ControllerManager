@@ -7,8 +7,8 @@ public class ControllerManager : MonoBehaviour
 
 	private PrimitiveType sphere = PrimitiveType.Sphere;
 	private Vector3 pos = new Vector3();
-	string currentFileName = "";
-	string currentFilePath = "";
+	string currentFileName;
+	string currentFilePath;
 
 	string folderPath = @"Assets/TextFiles";
 	public List<string> nameList = new List<string>(new string[] { "EmotionA", "EmotionD", "Emotion2A" });
