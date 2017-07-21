@@ -7,7 +7,8 @@ public class ControllerManager : MonoBehaviour
 
 	private SteamVR_TrackedController _controller;
 	private PrimitiveType sphere = PrimitiveType.Sphere;
-
+	private Vector3 pos = new Vector3();
+	
 	public bool triggerButtonPressed = false;
 	private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
 
@@ -22,10 +23,12 @@ public class ControllerManager : MonoBehaviour
 	void Start()
 	{
 		trackedObj = GetComponent<SteamVR_TrackedObject>();
+		pos = trackedObj.transform.position;
 	}
 
 	void Update()
 	{
+		//spawns a sphere whenever the trigger button is in the "pressed" position
 		triggerButtonPressed = controller.GetPress (triggerButton);
 		if (triggerButtonPressed) {
 			SpawnCurrentPrimitiveAtController ();
@@ -37,10 +40,11 @@ public class ControllerManager : MonoBehaviour
 		var spawnedPrimitive = GameObject.CreatePrimitive(sphere);
 		spawnedPrimitive.transform.position = transform.position;
 		spawnedPrimitive.transform.rotation = transform.rotation;
-		spawnedPrimitive.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+		spawnedPrimitive.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f); // sphere size
 		
+		//sets the red/blue areas and changes the sphere colors
 		Renderer r = spawnedPrimitive.GetComponent<Renderer> ();
-		if (transform.position.x > 1.0) { //random number -- check axis and check values to see the threshold
+		if (transform.position.x > pos.x) { 
 			r.material.color = Color.red;
 		} 
 		else {
