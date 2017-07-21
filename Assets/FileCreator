@@ -1,0 +1,45 @@
+using System.Collections;
+using System.Collections.Generic;
+using System;
+using System.IO;
+using UnityEngine;
+
+public class FileCreator : MonoBehaviour {
+	
+	string folderPath = @"Assets/TextFiles";
+	public List<string> nameList = new List<string>(new string[] { "EmotionA", "EmotionD", "Emotion2A" });
+
+	// Use this for initialization
+	void Start () {
+		checkFiles ();
+	}
+
+	private void checkFiles () {
+		var info = new DirectoryInfo(folderPath);
+		var fileInfo = info.GetFiles();
+
+		if (fileInfo.Length == 0) { //aka there are no files in the Text files folder
+			foreach (string fileName in nameList) {
+				File.CreateText (fileName); //create all of the files
+			}
+
+		} else if (fileInfo.Length != 0) { //aka there are 1+ files in the Text files folder
+			foreach (string fileName in nameList) { //repeat the below process for each file in the list
+				string filePath = string.Format (@"Assets/TextFiles/{0}.txt", fileName); //set the right filePath
+				FileInfo f = new FileInfo(filePath); //get the file info from the file
+
+				if (File.Exists (fileName)) { // see if the file exists
+					if (f.Length != 0) { //check if it is written in using file info :)
+						Debug.Log ("You are overwriting previous data. Please remove text files from the assets folder."); //warn the user that the file already exists and they need to save the data and move on
+					} else if (f.Length == 0) { //check if the file is not written in using file info :) 
+						//Do something that allows to continue
+					}
+				}
+				else if (!File.Exists(fileName)) { //if the file does not exists
+					File.CreateText (fileName); //create the file
+				}
+			}
+		}
+				
+	}
+}
