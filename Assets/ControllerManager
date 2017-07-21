@@ -105,4 +105,3 @@ public class ControllerManager : MonoBehaviour
 		}
 	}
 }
-//might work because on update so it calls over and over and if the button is pressed then it spawns a sphere, so if controller is held down then it keeps making spheres
