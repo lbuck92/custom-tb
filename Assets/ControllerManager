@@ -5,9 +5,13 @@ using System.IO;
 public class ControllerManager : MonoBehaviour 
 {
 
-	private SteamVR_TrackedController _controller;
 	private PrimitiveType sphere = PrimitiveType.Sphere;
 	private Vector3 pos = new Vector3();
+	string currentFileName = "";
+	string currentFilePath = "";
+
+	string folderPath = @"Assets/TextFiles";
+	public List<string> nameList = new List<string>(new string[] { "EmotionA", "EmotionD", "Emotion2A" });
 	
 	public bool triggerButtonPressed = false;
 	private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
@@ -24,6 +28,8 @@ public class ControllerManager : MonoBehaviour
 	{
 		trackedObj = GetComponent<SteamVR_TrackedObject>();
 		pos = trackedObj.transform.position;
+		CheckFiles ();
+		SettingCurrentFile ();
 	}
 
 	void Update()
@@ -32,6 +38,49 @@ public class ControllerManager : MonoBehaviour
 		triggerButtonPressed = controller.GetPress (triggerButton);
 		if (triggerButtonPressed) {
 			SpawnCurrentPrimitiveAtController ();
+		}
+	}
+	
+		private void CheckFiles () {
+		var info = new DirectoryInfo(folderPath);
+		var fileInfo = info.GetFiles();
+
+		if (fileInfo.Length == 0) { //aka there are no files in the Text files folder
+			foreach (string fileName in nameList) {
+				File.CreateText (fileName); //create all of the files
+			}
+
+		} else if (fileInfo.Length != 0) { //aka there are 1+ files in the Text files folder
+			foreach (string fileName in nameList) { //repeat the below process for each file in the list
+				string filePath = string.Format (@"Assets/TextFiles/{0}.txt", fileName); //set the right filePath
+				FileInfo f = new FileInfo(filePath); //get the file info from the file
+
+				if (File.Exists (fileName)) { // see if the file exists
+					if (f.Length != 0) { //check if it is written in using file info :)
+						Debug.Log ("You are overwriting previous data. Please remove text files from the assets folder."); //warn the user that the file already exists and they need to save the data and move on
+					} else if (f.Length == 0) { //check if the file is not written in using file info :) 
+						//Do something that allows to continue
+					}
+				}
+				else if (!File.Exists(fileName)) { //if the file does not exists
+					File.CreateText (fileName); //create the file
+				}
+			}
+		}
+
+	}
+
+	private void SettingCurrentFile() {
+		foreach (string fileName in nameList) { //repeat the below process for each file in the list
+			string filePath = string.Format (@"Assets/TextFiles/{0}.txt", fileName); //set the right filePath
+			FileInfo f = new FileInfo (filePath); //get the file info from the file
+			
+			if (f.Length != 0) { //check if it is written in using file info :)
+				 //warn the user that the file already exists and they need to save the data and move on
+			} else if (f.Length == 0) { //check if the file is not written in using file info :) 
+				currentFileName = fileName;
+				currentFilePath = filePath;
+			}
 		}
 	}
 
@@ -51,7 +100,7 @@ public class ControllerManager : MonoBehaviour
 			r.material.color = Color.blue;
 		}
 
-		using (StreamWriter cp = new StreamWriter (@"Assets/SpherePositions.txt", true)) {
+		using (StreamWriter cp = new StreamWriter (currentFilePath, true)) {
 			cp.WriteLine ("SpherePositions: {0}", spawnedPrimitive.transform.position);
 		}
 	}
