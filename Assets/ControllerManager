@@ -60,11 +60,12 @@ public class ControllerManager : MonoBehaviour
 					if (f.Length != 0) { //check if it is written in using file info :)
 						Debug.Log ("You are overwriting previous data. Please remove text files from the assets folder."); //warn the user that the file already exists and they need to save the data and move on
 					} else if (f.Length == 0) { //check if the file is not written in using file info :) 
-						//Do something that allows to continue
+						Debug.Log("good");//Do something that allows to continue
 					}
 				}
 				else if (!File.Exists(fileName)) { //if the file does not exists
-					File.CreateText (fileName); //create the file
+					using (StreamWriter sw = File.CreateText (string.Format(@"Assets/TextFiles/{0}.txt", fileName))) {//create all of the files
+					}	
 				}
 			}
 		}
