@@ -47,7 +47,8 @@ public class ControllerManager : MonoBehaviour
 
 		if (fileInfo.Length == 0) { //aka there are no files in the Text files folder
 			foreach (string fileName in nameList) {
-				File.CreateText (fileName); //create all of the files
+				using (StreamWriter sw = File.CreateText (string.Format(@"Assets/TextFiles/{0}.txt", fileName))) {//create all of the files
+				}
 			}
 
 		} else if (fileInfo.Length != 0) { //aka there are 1+ files in the Text files folder
