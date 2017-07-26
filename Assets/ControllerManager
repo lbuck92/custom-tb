@@ -80,6 +80,7 @@ public class ControllerManager : MonoBehaviour
 			if (f.Length != 0) { //check if it is written in using file info :)
 				 //warn the user that the file already exists and they need to save the data and move on
 			} else if (f.Length == 0) { //check if the file is not written in using file info :) 
+				//if (fileName == HUD.text) --> once HUD text is added, will be able to check if you are writing the right emotion in the right file
 				currentFileName = fileName;
 				currentFilePath = filePath;
 			}
