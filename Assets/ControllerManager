@@ -11,7 +11,7 @@ public class ControllerManager : MonoBehaviour
 	string currentFilePath;
 
 	string folderPath = @"Assets/TextFiles";
-	public List<string> nameList = new List<string>(new string[] { "EmotionA", "EmotionB", "EmotionC" });
+	public List<string> nameList = new List<string>(new string[] { "Anger", "Fear", "Disgust", "Happiness", "Sadness", "Surprise", "Neutral", "Anxiety", "Love", "Depression", "Contempt", "Pride", "Shame", "Envy" });
 	
 	public bool triggerButtonPressed = false;
 	private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
@@ -80,9 +80,13 @@ public class ControllerManager : MonoBehaviour
 			if (f.Length != 0) { //check if it is written in using file info :)
 				 //warn the user that the file already exists and they need to save the data and move on
 			} else if (f.Length == 0) { //check if the file is not written in using file info :) 
-				//if (fileName == HUD.text) --> once HUD text is added, will be able to check if you are writing the right emotion in the right file
-				currentFileName = fileName;
-				currentFilePath = filePath;
+				//if (transform.position.x > pos.x) {
+					//string checkText = HUD.text + "A";
+					//if (fileName == checkText) {--> once HUD text is added, will be able to check if you are writing the right emotion in the right file
+						currentFileName = fileName;
+						currentFilePath = filePath;
+					}
+				}
 			}
 		}
 	}
