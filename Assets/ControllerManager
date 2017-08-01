@@ -7,12 +7,19 @@ public class ControllerManager : MonoBehaviour
 
 	private PrimitiveType sphere = PrimitiveType.Sphere;
 	private Vector3 pos = new Vector3();
+	
 	string currentFileName;
 	string currentFilePath;
+	Random rnd = new Random();
+	int choose = rnd.Next(0, 15);
+	
+	public string text;
+	GameObject Text;
+	GameObject Canvas;
 
 	string folderPath = @"Assets/TextFiles";
 	public List<string> nameList = new List<string>(new string[] { "AngerA", "FearA", "DisgustA", "HappinessA", "SadnessA", "SurpriseA", "NeutralA", "AnxietyA", "LoveA", "DepressionA", "ContemptA", "PrideA", "ShameA", "EnvyA", "AngerD", "FearD", "DisgustD", "HappinessD", "SadnessD", "SurpriseD", "NeutralD", "AnxietyD", "LoveD", "DepressionD", "ContemptD", "PrideD", "ShameD", "EnvyD" });
-	//"Anger", "Fear", "Disgust", "Happiness", "Sadness", "Surprise", "Neutral", "Anxiety", "Love", "Depression", "Contempt", "Pride", "Shame", "Envy" 
+	public List<string> canvasList = new List<string>(new string[] {"Anger", "Fear", "Disgust", "Happiness", "Sadness", "Surprise", "Neutral", "Anxiety", "Love", "Depression", "Contempt", "Pride", "Shame", "Envy"}); 
 	
 	public bool triggerButtonPressed = false;
 	private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
@@ -29,6 +36,11 @@ public class ControllerManager : MonoBehaviour
 	{
 		trackedObj = GetComponent<SteamVR_TrackedObject>();
 		pos = trackedObj.transform.position;
+		Canvas = GameObject.Find ("Canvas");
+		Text = GameObject.Find ("Text");
+		Text.GetComponent<Text> ().text = canvasList[choose];
+		usedText = Text.GetComponent<Text> ().text;
+		Canvas.SetActive (true);
 		CheckFiles ();
 		SettingCurrentFile ();
 	}
@@ -82,14 +94,14 @@ public class ControllerManager : MonoBehaviour
 				 //warn the user that the file already exists and they need to save the data and move on
 			} else if (f.Length == 0) { //check if the file is not written in using file info :) 
 				//if (transform.position.x > pos.x) {
-					//string checkText = HUD.text + "A";
+					//string checkText = usedText + "A";
 					//if (fileName == checkText) {--> once HUD text is added, will be able to check if you are writing the right emotion in the right file
 				currentFileName = fileName;
 				currentFilePath = filePath;
 					//}
 				//}
 				//else if (transform.position.x < pos.x) {
-					string checkText = HUD.text + "D";
+					string checkText = usedText + "D";
 					//if (fileName == checkText) {--> once HUD text is added, will be able to check if you are writing the right emotion in the right file
 						//currentFileName = fileName;
 						//currentFilePath = filePath;
