@@ -84,10 +84,17 @@ public class ControllerManager : MonoBehaviour
 				//if (transform.position.x > pos.x) {
 					//string checkText = HUD.text + "A";
 					//if (fileName == checkText) {--> once HUD text is added, will be able to check if you are writing the right emotion in the right file
-						currentFileName = fileName;
-						currentFilePath = filePath;
-					}
-				}
+				currentFileName = fileName;
+				currentFilePath = filePath;
+					//}
+				//}
+				//else if (transform.position.x < pos.x) {
+					string checkText = HUD.text + "D";
+					//if (fileName == checkText) {--> once HUD text is added, will be able to check if you are writing the right emotion in the right file
+				currentFileName = fileName;
+				currentFilePath = filePath;
+					//}
+				//}
 			}
 		}
 	}
