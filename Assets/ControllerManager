@@ -11,7 +11,8 @@ public class ControllerManager : MonoBehaviour
 	string currentFilePath;
 
 	string folderPath = @"Assets/TextFiles";
-	public List<string> nameList = new List<string>(new string[] { "Anger", "Fear", "Disgust", "Happiness", "Sadness", "Surprise", "Neutral", "Anxiety", "Love", "Depression", "Contempt", "Pride", "Shame", "Envy" });
+	public List<string> nameList = new List<string>(new string[] { "AngerA", "FearA", "DisgustA", "HappinessA", "SadnessA", "SurpriseA", "NeutralA", "AnxietyA", "LoveA", "DepressionA", "ContemptA", "PrideA", "ShameA", "EnvyA", "AngerD", "FearD", "DisgustD", "HappinessD", "SadnessD", "SurpriseD", "NeutralD", "AnxietyD", "LoveD", "DepressionD", "ContemptD", "PrideD", "ShameD", "EnvyD" });
+	//"Anger", "Fear", "Disgust", "Happiness", "Sadness", "Surprise", "Neutral", "Anxiety", "Love", "Depression", "Contempt", "Pride", "Shame", "Envy" 
 	
 	public bool triggerButtonPressed = false;
 	private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
