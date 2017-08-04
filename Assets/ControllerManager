@@ -50,7 +50,7 @@ public class ControllerManager : MonoBehaviour
 		triggerButtonPressed = controller.GetPress (triggerButton);
 		if (triggerButtonPressed) {
 			SpawnCurrentPrimitiveAtController ();
-			SettingCurrentFile ();
+			//SettingCurrentFile ();
 		}
 	}
 
@@ -94,20 +94,9 @@ public class ControllerManager : MonoBehaviour
 
 	}
 
-	private void SettingCurrentFile() {
-		foreach (string fileName in nameList) { //repeat the below process for each file in the list
-			string filePath = string.Format (@"Assets/TextFiles/{0}.txt", fileName); //set the right filePath
-			FileInfo f = new FileInfo (filePath); //get the file info from the file
-			if (f.Length != 0) { //check if it is written in using file info :)
-				//warn the user that the file already exists and they need to save the data and move on
-			} else if (f.Length == 0) { //check if the file is not written in using file info :) 
-				if (fileName == checkText) {
-					currentFileName = fileName;
-					currentFilePath = filePath;
-				}
-			}
-		}
-	}
+	//private void SettingCurrentFile() {
+		
+	//}
 
 	private void SpawnCurrentPrimitiveAtController()
 	{
@@ -125,6 +114,19 @@ public class ControllerManager : MonoBehaviour
 		else {
 			r.material.color = Color.blue;
 			checkText = usedText + "D";
+		}
+		
+		foreach (string fileName in nameList) { //repeat the below process for each file in the list
+			string filePath = string.Format (@"Assets/TextFiles/{0}.txt", fileName); //set the right filePath
+			FileInfo f = new FileInfo (filePath); //get the file info from the file
+			if (f.Length != 0) { //check if it is written in using file info :)
+				//warn the user that the file already exists and they need to save the data and move on
+			} else if (f.Length == 0) { //check if the file is not written in using file info :) 
+				if (fileName == checkText) {
+					currentFileName = fileName;
+					currentFilePath = filePath;
+				}
+			}
 		}
 
 		using (StreamWriter cp = new StreamWriter (currentFilePath, true)) {
