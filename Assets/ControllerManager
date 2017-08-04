@@ -1,26 +1,27 @@
 using UnityEngine;
 using System.Collections;
 using System.IO;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class ControllerManager : MonoBehaviour 
 {
 
 	private PrimitiveType sphere = PrimitiveType.Sphere;
 	private Vector3 pos = new Vector3();
-	
+
 	string currentFileName;
 	string currentFilePath;
-	Random rnd = new Random();
-	int choose = rnd.Next(0, 15);
-	
-	public string text;
-	GameObject Text;
+
+	public string usedText;
+	public string checkText;
+	GameObject myText;
 	GameObject Canvas;
 
 	string folderPath = @"Assets/TextFiles";
 	public List<string> nameList = new List<string>(new string[] { "AngerA", "FearA", "DisgustA", "HappinessA", "SadnessA", "SurpriseA", "NeutralA", "AnxietyA", "LoveA", "DepressionA", "ContemptA", "PrideA", "ShameA", "EnvyA", "AngerD", "FearD", "DisgustD", "HappinessD", "SadnessD", "SurpriseD", "NeutralD", "AnxietyD", "LoveD", "DepressionD", "ContemptD", "PrideD", "ShameD", "EnvyD" });
 	public List<string> canvasList = new List<string>(new string[] {"Anger", "Fear", "Disgust", "Happiness", "Sadness", "Surprise", "Neutral", "Anxiety", "Love", "Depression", "Contempt", "Pride", "Shame", "Envy"}); 
-	
+
 	public bool triggerButtonPressed = false;
 	private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
 
@@ -37,10 +38,8 @@ public class ControllerManager : MonoBehaviour
 		trackedObj = GetComponent<SteamVR_TrackedObject>();
 		pos = trackedObj.transform.position;
 		Canvas = GameObject.Find ("Canvas");
-		Text = GameObject.Find ("Text");
-		Text.GetComponent<Text> ().text = canvasList[choose];
-		usedText = Text.GetComponent<Text> ().text;
-		Canvas.SetActive (true);
+		myText = GameObject.Find ("myText");
+		HUD();
 		CheckFiles ();
 		SettingCurrentFile ();
 	}
@@ -51,10 +50,20 @@ public class ControllerManager : MonoBehaviour
 		triggerButtonPressed = controller.GetPress (triggerButton);
 		if (triggerButtonPressed) {
 			SpawnCurrentPrimitiveAtController ();
+			SettingCurrentFile ();
 		}
 	}
-	
-		private void CheckFiles () {
+
+	private void HUD() {
+		int choose = Random.Range(0, 15);
+		myText.GetComponent<Text> ().text = " ";
+		string newText = canvasList[choose];
+		myText.GetComponent<Text> ().text = newText;
+		Canvas.SetActive (true);
+		usedText = newText;
+	}
+
+	private void CheckFiles () {
 		var info = new DirectoryInfo(folderPath);
 		var fileInfo = info.GetFiles();
 
@@ -89,24 +98,13 @@ public class ControllerManager : MonoBehaviour
 		foreach (string fileName in nameList) { //repeat the below process for each file in the list
 			string filePath = string.Format (@"Assets/TextFiles/{0}.txt", fileName); //set the right filePath
 			FileInfo f = new FileInfo (filePath); //get the file info from the file
-			
 			if (f.Length != 0) { //check if it is written in using file info :)
-				 //warn the user that the file already exists and they need to save the data and move on
+				//warn the user that the file already exists and they need to save the data and move on
 			} else if (f.Length == 0) { //check if the file is not written in using file info :) 
-				//if (transform.position.x > pos.x) {
-					//string checkText = usedText + "A";
-					//if (fileName == checkText) {--> once HUD text is added, will be able to check if you are writing the right emotion in the right file
-				currentFileName = fileName;
-				currentFilePath = filePath;
-					//}
-				//}
-				//else if (transform.position.x < pos.x) {
-					string checkText = usedText + "D";
-					//if (fileName == checkText) {--> once HUD text is added, will be able to check if you are writing the right emotion in the right file
-						//currentFileName = fileName;
-						//currentFilePath = filePath;
-					//}
-				//}
+				if (fileName == checkText) {
+					currentFileName = fileName;
+					currentFilePath = filePath;
+				}
 			}
 		}
 	}
@@ -117,14 +115,16 @@ public class ControllerManager : MonoBehaviour
 		spawnedPrimitive.transform.position = transform.position;
 		spawnedPrimitive.transform.rotation = transform.rotation;
 		spawnedPrimitive.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f); // sphere size
-		
+
 		//sets the red/blue areas and changes the sphere colors
 		Renderer r = spawnedPrimitive.GetComponent<Renderer> ();
 		if (transform.position.x > pos.x) { 
 			r.material.color = Color.red;
+			checkText = usedText + "A";
 		} 
 		else {
 			r.material.color = Color.blue;
+			checkText = usedText + "D";
 		}
 
 		using (StreamWriter cp = new StreamWriter (currentFilePath, true)) {
