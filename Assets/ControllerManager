@@ -41,7 +41,7 @@ public class ControllerManager : MonoBehaviour
 		myText = GameObject.Find ("myText");
 		HUD();
 		CheckFiles ();
-		SettingCurrentFile ();
+		//SettingCurrentFile ();
 	}
 
 	void Update()
