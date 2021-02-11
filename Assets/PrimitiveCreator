@@ -1,0 +1,42 @@
+using UnityEngine;
+using System.IO;
+
+public class PrimitiveCreator : MonoBehaviour
+{
+	private SteamVR_TrackedController _controller;
+	private PrimitiveType cube = PrimitiveType.Cube;
+	//to change from cube to sphere --> replace "PrimitiveType.Cube" with "PrimitiveType.Sphere" // replace "cube" with "sphere" throughout the whole script
+
+	private void OnEnable()
+	{
+		_controller = GetComponent<SteamVR_TrackedController>();
+		_controller.TriggerClicked += HandleTriggerClicked;
+	}
+
+	private void OnDisable()
+	{
+		_controller.TriggerClicked -= HandleTriggerClicked;
+	}
+
+	#region Primitive Spawning
+	private void HandleTriggerClicked(object sender, ClickedEventArgs e)
+	{
+		SpawnCurrentPrimitiveAtController();
+	}
+
+	private void SpawnCurrentPrimitiveAtController()
+	{
+		var spawnedPrimitive = GameObject.CreatePrimitive(cube);
+		spawnedPrimitive.transform.position = transform.position;
+		spawnedPrimitive.transform.rotation = transform.rotation;
+		spawnedPrimitive.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+		
+		using (StreamWriter cp = new StreamWriter (@"Assets/CubePositions.txt", true)) {
+			cp.WriteLine ("CubePositions: {0}", spawnedPrimitive.transform.position);
+		}
+	}
+	#endregion
+
+}
+
+
